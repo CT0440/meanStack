@@ -1,0 +1,104 @@
+ Execute all queries in vscode using db.employees. Use insertOne(), insertMany(), find(), updateOne(), updateMany(), deleteOne(), deleteMany() for CRUD. Apply operators like $gt, $in, $regex, $elemMatch, $set, $push, $pull, $inc. Create indexes with createIndex().
+
+CRUD Operations (Questions 1-15)
+Insert one employee document for "Alice Johnson" (email: alice.johnson@company.com, age: 28, department: "HR", salary: 65000).
+
+Insert 5 employees in one operation for Engineering department (ages 25-35, salaries 70000-95000).
+
+Update Alice Johnson's performance_score to 4.5 using updateOne().
+
+Increment salary by 5000 for all active Engineering employees using updateMany().
+
+Add project "Project Gamma" (role: "Manager", status: "active") to John's projects array.
+
+Remove "Project Beta" from all employees using $pull.
+
+Set is_active: false for employees with performance_score below 3.0.
+
+Replace entire address for John Smith with new address (street: "456 Innovation Ave", city: "Seattle", state: "WA", zip: "98101").
+
+Delete one employee with email "john.smith@company.com".
+
+Delete all inactive employees hired before 2022.
+
+Insert phone number "415-555-0103" to Alice Johnson's phone_numbers array.
+
+Unset the updated_at field for all HR employees.
+
+Rename salary field to annual_salary for all documents.
+
+Add bonus_eligible: true field for top 3 performance_score employees (score > 4.5).
+
+Delete the entire address field from all California employees.
+
+Querying Operations (Questions 16-35)
+Find all Engineering employees aged 30-35.
+
+Find employees with performance_score greater than 4.0, sorted by score descending.
+
+Find active employees in "Engineering" or "HR".
+
+Find employees living in "San Francisco" city.
+
+Find employees with "Lead" role in any project.
+
+Find employees hired in 2022 with salary > 70000.
+
+Find employees whose name starts with "J" (case-insensitive).
+
+Find employees with at least 2 phone numbers.
+
+Find employees with performance_score between 3.5 and 4.2, limit to 10, skip 5.
+
+Find employees who worked on "Project Alpha" as "Lead".
+
+Find inactive employees or those with performance_score < 3.0.
+
+Find employees created after January 1, 2024.
+
+Find distinct departments in the collection.
+
+Count total active employees.
+
+Find average salary for Engineering employees.
+
+Find employees with no projects assigned (empty projects array).
+
+Find employees whose email ends with "@company.com".
+
+Find top 5 employees by salary.
+
+Find employees in CA or WA state with performance_score > 4.0.
+
+Find documents where age exists but gender does not.
+
+Indexing Operations (Questions 36-50)
+Create index on department field (ascending).
+
+Create compound index on department and performance_score (department asc, score desc).
+
+Create index on email (unique).
+
+Create text index on name field.
+
+Create index on address.zip (ascending).
+
+Create compound index on hire_date, is_active, salary.
+
+Create index on projects.name (multikey).
+
+List all indexes on employees collection.
+
+Drop index on department only.
+
+Explain query performance for performance_score > 4.0 without/with index.
+
+Create partial index for active employees only (is_active: true).
+
+Create TTL index on created_at (expire after 3 years).
+
+Create sparse index on bonus_eligible field.
+
+Find index usage stats for compound department-performance_score index.
+
+Drop all indexes except _id and email unique index.
