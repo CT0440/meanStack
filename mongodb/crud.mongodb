@@ -1,70 +1,272 @@
-import { use } from "react";
+//list databases
+show dbs
 
-//want to see databases in mongodb
-show dbs;
+//create database or use Existing database
+use college
 
-//create new database 6A18
-use 6A18;
+//create collection or use existing collection
+db.createCollection("students")
 
-//create new collection students
-db.createCollection("students");
+//change collection name
+db.students.renameCollection("faculty")
 
-//insert one document into students collection
-db.students.insertOne({
-    id: 101,
-    name: "Susruthi",
-    course: "MERN",
-    age: 22,
-    city: "Bangalore",
-    department: "CSE"
-})
+//insert document in collection
+db.students.insertOne(
+    {
+        name: "Susruthi Kanaparthi", 
+        age: 23, 
+        major: "Computer Science"
+    })
 
-//fetch all documents from students collection
-db.students.find();
+//insert multiple documents in collection
+db.students.insertMany([
+    {
+        name: "Prajwal sagar",
+        age: 28,
+        major: "statistics"
+    },
+    {
+        name: "Ananya gaurav",
+        age: 25,
+        major: "sociology"
+    },
+    {
+        name: "Ritik jain",
+        age: 26,
+        major: "commerce"
+    },
+    {
+        name: "Neha sharma",
+        age: 24,
+        major: "psychology"
+    },
+    {
+        name: "Aarav mehta",
+        age: 27,
+        major: "economics"
+    },
+    {
+        name: "Isha verma",
+        age: 23,
+        major: "literature"
+    },
+    {
+        name: "Kabir singh",
+        age: 29,
+        major: "philosophy"
+    },
+    {
+        name: "Maya rao",
+        age: 22,
+        major: "art history"
+    },
+    {
+        name: "Rohan patel",
+        age: 28,
+        major: "environmental science"
+    },
+    {
+        name: "Sana khan",
+        age: 24,
+        major: "political science"
+    },
+    {
+        name: "Aditya sharma",
+        age: 26,
+        major: "business administration"
+    },
+    {
+        name: "Tara singh",
+        age: 25,
+        major: "Computer Science"
+    },
+    {
+        name: "Vikram gupta",
+        age: 27,
+        major: "political science"
+    },
+    {
+        name: "Nina das",
+        age: 23,
+        major: "Sociology"
+    },
+    {
+        name: "Karan johar",
+        age: 29,
+        major: "commerce"
+    },
+    {
+        name: "Anika roy",
+        age: 22,
+        major: "psychology"
+    },
+    {
+        name: "Devansh mehta",
+        age: 28,
+        major: "statistics"
+    },
+    {
+        name: "Rhea kapoor",
+        age: 24,
+        major: "literature"
+    },
+    {
+        name: "Shaurya singh",
+        age: 26,
+        major: "business administration"
+    },
+    {
+        name: "Kiara advani",
+        age: 25,
+        major: "Computer Science"
+    },
+    {
+        name: "Arjun reddy",
+        age: 27,
+        major: "commerce"
+    },
+    {
+        name: "Meera nair",
+        age: 23,
+        major: "literature"
+    },
+    {
+        name: "Kabir khan",
+        age: 29,
+        major: "economics"
+    },
+    {
+        name: "Sana shah",
+        age: 24,
+        major: "political science"
+    },
+    {
+        name: "Rohan verma",
+        age: 28,
+        major: "statistics"
+    },
+    {
+        name: "Kabir Khan",
+        age: 26,
+        major: "sociology"
+    }
 
-db.students.insertMany(
-    [
-        {
-            id: 102,
-            name: "Anitha",
-            course: "Python",
-            age: 21,
-            city: "Chennai",
-            department: "Sales"
-        },
-        {
-            id: 103,
-            name: "Rakesh",
-            course: "IOT",
-            age: 23,
-            city: "Hyderabad",
-            department: "Marketing"
-        },
-        {
-            id: 104,
-            name: "Priya",
-            course: "MEAN",
-            age: 22,
-            city: "Mumbai",
-            department: "HR"
-        },
-        {
-            id: 105,
-            name: "Vikram",
-            course: "MERN",
-            age: 24,
-            city: "Pune",
-            department: "CSE"
-        }
-,    ]
+])
+//view documents in collection
+db.faculty.find()
+//view names of the faculty members and their majors only
+db.faculty.find({}, {name: 1,major:1, _id: 0})
+
+//find documents with major as Computer Science
+db.faculty.find({major: "Computer Science"})
+
+//list out top5 senior faculty members based on age
+db.faculty.find().sort({age: -1}).limit(5)
+
+//update whose are seniors i.e 29 , add a field called Examduty with value as "Senior supervisor"
+db.faculty.updateMany(
+    {age: 29},
+    {$set: {ExamDuty: "Senior Supervisor"}}
+)
+
+//list out all faculty members who have exam duty assigned
+db.faculty.find({ExamDuty: "Senior Supervisor"})
+
+//list out faculty members who are juniors i.e age less than 25
+db.faculty.find({age: {$lt: 25}})
+
+//assign exam duty as "junior supervisor" to all juniors
+db.faculty.updateMany(
+    {age: {$lte: 25}},
+    {$set: {ExamDuty: "Junior Supervisor"}}
+)
+
+//Assign exam duty as "Releiver" to all remaining faculty members
+db.faculty.updateMany(
+    {ExamDuty: {$exists: false}},
+    {$set: {ExamDuty: "Reliever"}}
+)
+//view all faculty members along with their exam duty
+db.faculty.find({}, {name: 1, ExamDuty: 1, _id: 0})
+
+//view all faculty members whose not assigned any exam duty
+db.faculty.find({ExamDuty: {$exists: false}})
+
+//different operators
+//find faculty members whose age is greater than or equal to 26
+db.faculty.find({age: {$gte: 26}})
+
+//find faculty members whose age is less than or equal to 24
+db.faculty.find({age: {$lte: 24}})
+
+//find faculty members whose age is not equal to 25
+db.faculty.find({age: {$ne: 25}})
+ 
+//find faculty members whose major is either "Computer Science" or "poloitical science"
+db.faculty.find({major: {$in: ["Computer Science", "political science"]}})
+
+//find faculty members whose major is not "Commerce" or "Psychology"
+db.faculty.find({major: {$nin: ["Commerce", "Psychology"]}})
+
+//Asssign Salary to faculty members based on their major 
+// Computer Science and age below 25 get 80000 Salary
+db.faculty.updateMany(
+    {major: "Computer Science", age: {$lt: 25}},
+    {$set: {Salary: 80000}}
+)
+
+//Political Science and age above or equal to 25 get 75000 Salary
+db.faculty.updateMany(
+    {major: "political science", age: {$gte: 25}},
+    {$set: {Salary: 75000}}
+)
+//All other faculty members get 70000 Salary
+db.faculty.updateMany(
+    {Salary: {$exists: false}},
+    {$set: {Salary: 70000}}
+)
+//view all faculty members along with their salaries
+db.faculty.find({}, {name: 1, Salary: 1, _id: 0})
+
+//increase salary by 5000 to all faculty members who are senior supervisors
+db.faculty.updateMany(
+    {ExamDuty: "Senior Supervisor"},
+    {$inc: {Salary: 5000}}
+)
+
+//remaining faculty members who are not senior supervisors get bonus of 10000 on exam duty month
+db.faculty.updateMany(
+    {ExamDuty: {$ne: "Senior Supervisor"}},
+    {$set: {bonus: 10000}}
+)
+
+//view all faculty members along with their salaries and bonus
+db.faculty.find({}, {name: 1, Salary: 1, bonus: 1, _id: 0})
+
+//faculty who are not getting any bonus
+db.faculty.find({bonus: {$exists: false}})
+
+//Assign 2 Days Casual lave for Senior Faculty
+db.faculty.find(
+    {},
+    {_id: 0}
 )
 
 
-db.students.updateOne({id:105},{$set:{marks:90}})
-//update Many document in students collection
-db.students.updateMany({},{$set:{marks:0}})
-//fetch all documents from students whose marks greater than 50
-db.students.find({marks:{$gt:50}}).count();
 
-//delete one document from students collection
-db.students.deleteOne({id:105});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
