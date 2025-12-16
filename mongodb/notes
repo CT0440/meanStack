@@ -1,4 +1,4 @@
-Indexing
+with out Indexing
 
 * It checks every document in the collection one by one.
 * Queries are slower, especially as the collection grows.
