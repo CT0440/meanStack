@@ -33,22 +33,66 @@ db.collection.createIndex({ title: "text", description: "text" })
 Query example:
 db.collection.find({ $text: { $search: "mongodb" } })
 
-TTL (Time To Live) Index
-Automatically deletes documents after a specified time.
-db.collection.createIndex(
-{ createdAt: 1 },
-{ expireAfterSeconds: 3600 } // deletes after 1 hour
-)
 
-Partial Index
-Indexes only documents that match a filter.
-db.collection.createIndex(
-{ age: 1 },
-{ partialFilterExpression: { age: { $gte: 18 } } }
-)
 
-Check Indexes
-db.collection.getIndexes()
 
-Drop an Index
-db.collection.dropIndex("indexName")
+What is Schema Designing?
+
+Schema Designing is the process of planning and defining the structure of data in a database—that is, what fields exist, their data types, relationships, constraints, and indexes—before storing data.
+
+In simple words:
+
+Schema design decides how your data is organized, stored, and accessed efficiently.
+
+🔹 Why Schema Designing is Important
+
+Good schema design helps to:
+
+Store data in a clean and consistent way
+
+Avoid data duplication
+
+Improve query performance
+
+Make the application scalable and maintainable
+
+Support security and data integrity
+db.createCollection("faculty", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["empId", "name", "role"],
+      properties: {
+        empId: {
+          bsonType: "string",
+          description: "Employee ID must be string and is required"
+        },
+        name: {
+          bsonType: "string",
+          description: "Name must be string"
+        },
+        role: {
+          bsonType: "string",
+          description: "Role must be string"
+        },
+        department: {
+          bsonType: "string"
+        },
+        age: {
+          bsonType: "int",
+          minimum: 21
+        },
+        email: {
+          bsonType: "string"
+        },
+        createdAt: {
+          bsonType: "date"
+        }
+      }
+    }
+  }
+})
+
+db.faculty.createIndex({ email: 1 }, { unique: true })
+
+

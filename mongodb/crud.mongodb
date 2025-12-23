@@ -13,7 +13,7 @@ db.students.renameCollection("faculty")
 //insert document in collection
 db.faculty.insertOne(
     {
-        name: "Susruthi Kanaparthi", 
+        name: "Kirnamay", 
         age: 23, 
         major: "Computer Science"
     })
@@ -318,8 +318,27 @@ db.faculty.updateMany(
   { $push: { degrees: "PhD" } }   
 )
 
+//without indexing
 
-//indexing
+db.faculty.find({},{name:1, _id: 0})
+
+db.faculty.find({name: "Susruthi Kanaparthi"})
+
+db.faculty.find({name: "Susruthi Kanaparthi"}).explain("executionStats")
+
+
+//with indexing
+db.faculty.createIndex({name: 1})
+
+db.faculty.find({name: "Susruthi Kanaparthi"})
+
+db.faculty.insertOne({
+    name: "Susruthi Kanaparthi",
+    age: 24,
+    major: "AI & ML"
+})
+
+db.faculty.find({name: "Susruthi Kanaparthi"}).explain("executionStats")
 
 //single field indexing
 db.faculty.createIndex({name: 1})
@@ -343,15 +362,83 @@ db.faculty.insertOne({ customId: "CT001", name: "Kabir Singh" })
 
 
 
+//schema Designing and validation
+//when ever I created Collection with schema validation
+db.createCollection("faculty", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "age", "major", "Salary", "Role", "customId"],
+      properties: {
+        name: { bsonType: "string" },
+        age: { bsonType: "int", minimum: 18 },
+        major: { bsonType: "string" },
+        Salary: { bsonType: "int", minimum: 0 },
+        Role: { bsonType: "string" },
+        customId: { bsonType: "string" }
+      }
+    }
+  },
+  validationLevel: "moderate"
+})
+
+db.faculty.insertOne(
+    {
+        name: "madhu", 
+        age: 23, 
+        major: "Computer Science",
+        Salary: 80000,
+        Role: "Senior Supervisor",
+        customId: "CT032"
+    })
 
 
 
+db.faculty.find()
+//schema updating after creating collection
+db.runCommand({
+  collMod: "faculty",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "age", "major", "Salary", "Role", "customId"],
+      properties: {
+        name: {
+          bsonType: "string"
+        },
+        age: {
+          bsonType: "int",
+          minimum: 18
+        },
+        major: {
+          bsonType: "string"
+        },
+        Salary: {
+          bsonType: "int",
+          minimum: 0
+        },
+        Role: {
+          bsonType: "string"
+        },
+        customId: {
+          bsonType: "string"
+        }
+      }
+    }
+  },
+  validationLevel: "moderate"
+})
 
 
+//show schema
+db.getCollectionInfos({name: "faculty"})
 
-
-
-
+//delete schema validation
+db.runCommand({
+  collMod: "faculty",
+  validator: {},
+  validationLevel: "off"
+})
 
 
 
